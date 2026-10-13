@@ -1,0 +1,14 @@
+import FreeCAD as App
+import Part
+import os
+folder = os.path.dirname(__file__)
+doc = App.newDocument('WebcamCase_v07')
+for name in ('front','rear','pcb_reference'):
+    obj = doc.addObject('PartDesign::Feature', name)
+    obj.Shape = Part.read(os.path.join(folder, name + '.step'))
+    if name == 'pcb_reference':
+        obj.ViewObject.Transparency = 75
+        obj.ViewObject.ShapeColor = (0.1,0.55,0.2)
+doc.recompute()
+Gui.activeDocument().activeView().viewAxonometric()
+Gui.activeDocument().activeView().fitAll()
